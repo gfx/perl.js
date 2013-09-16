@@ -1,0 +1,16 @@
+#!/bin/bash
+set -xe
+
+PERL_VERSION=v5.18.1
+
+if [ ! -d perl ] ; then
+    PERL_GIT=https://github.com/mirrors/perl.git
+    git clone --depth 1 -b $PERL_VERSION $PERL_GIT 
+fi
+
+cd perl/
+git clean -dfx
+git co .
+
+cp ../Makefile.emcc .
+make -f Makefile.emcc

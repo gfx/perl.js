@@ -1,0 +1,8 @@
+*~
+*.swp
+
+perl/
+
+perl.js
+a.out.*
+
