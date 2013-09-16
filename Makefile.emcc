@@ -3,7 +3,7 @@
 CC = emcc
 LD = $(CC)
 CCFLAGS = -O1 -v 
-LDFLAGS = -O1 -v -s EXPORTED_FUNCTIONS="['_main']" -s SAFE_HEAP=0 --pre-js ../node-prelude.js
+LDFLAGS = -O1 -v -s EXPORTED_FUNCTIONS="['_main']" -s SAFE_HEAP=0 --pre-js ../gen.node-prelude.js
 MICROPERL = microperl.js
 MINIPERLMAIN = miniperlmain.c
 
@@ -55,9 +55,10 @@ distclean:	clean
 Config = '$$Config{$$1}'
 patch_uconfig:
 	$(PERL) -MConfig -pi -e "s/^((?:short|int|long(?:dbl|long)?|ptr|double|[iun]v|u?quad|[iu]\d+|fpos|lseek)(?:size|type)|byteorder|signal_t|d_quad|quadkind|use64.+)=[^\\n]*/\\1='"$(Config)"'/xmsg" uconfig.sh
-	$(PERL) -pi -e 's/^archname=\S+/archname=js/xmsg' uconfig.sh
-	$(PERL) -pi -e 's/^osname=\S+/osname=emscripten/xmsg' uconfig.sh
-	$(PERL) -pi -e 'BEGIN { ($$v) = `$(CC) --version` =~ m{(\d+\.\d+\.\d+)}; } s/^osvers=\S+/osvers=$$v/xmsg' uconfig.sh
+	$(PERL) -pi -e 's/^(archname)=\S+/$$1=js/xmsg' uconfig.sh
+	$(PERL) -pi -e 's/^(osname)=\S+/$$1=emscripten/xmsg' uconfig.sh
+	$(PERL) -pi -e 'BEGIN { ($$v) = `$(CC) --version` =~ m{(\d+\.\d+\.\d+)}; } s/^(osvers)=\S+/$$1=$$v/xmsg' uconfig.sh
+	$(PERL) -pi -e 's{^(sitearch|sitearchexp|sitelib|sitelibexp|privlib|plivlibexp)=\S+}{$$1=/lib}xmsg' uconfig.sh
 
 regen_uconfig: patch_uconfig uconfig.sh config_h.SH
 	$(ENV) CONFIG_SH=uconfig.sh CONFIG_H=uconfig.h sh ./config_h.SH
