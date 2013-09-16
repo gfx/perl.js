@@ -4,5 +4,6 @@
 perl/
 
 perl.js
+microperl.js
 a.out.*
 
