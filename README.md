@@ -2,6 +2,10 @@
 
 DBD
 
+# INSTALL
+
+Install emscripten first, and setup PATH to use`emcc(1)`. Then `make` will build `microperl.js`.
+
 # SEE ALSO
 
 - [emscripten](https://github.com/kripken/emscripten) LLVM to JavaScript compiler
