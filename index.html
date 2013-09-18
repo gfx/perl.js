@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>perl.js</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <style>
+      body {
+        padding-top: 50px;
+      }
+      .starter-template {
+        padding: 40px 15px;
+        text-align: center;
+      }
+      #input {
+        width: 40em;
+        height: 15em;
+      }
+      #output {
+        width: 40em;
+        height: 15em;
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="perl.js"></script>
+    <script>
+      jQuery(function($) {
+        function output(s) {
+          var output = $('#output');
+          output.val(output.val() + s + "\n");
+        }
+        function onOutput(c) {
+          var o = $('#output');
+          o.val(o.val() + String.fromCharCode(s));
+        }
+        function onInput() {
+          return null;
+        }
+        Module.stdin  = onInput;
+        Module.stdout = onOutput;
+        Module.stderr = onOutput;
+        Module.print  = output;
+        Module.printErr = output;
+        Module.exit = function exit(status) {
+          EXITSTATUS = status;
+          STACKTOP = initialStackTop;
+          throw new ExitStatus(status);
+        };
+        $('#input').val(
+          "use strict;\n" +
+          "use warnings;\n" +
+          "\n" +
+          "print \"Hello, perl.js!\\n\"\n");
+
+        $('#eval').click(function() {
+          $('#output').val('');
+          preloadStartTime = null;
+          ABORT = false;
+          try {
+            try { FS.unlink('/input') } catch (e) { }
+            FS.createDataFile('/', 'input', $('#input').val(), true, true);
+            Module.callMain(['/input'])
+          } catch (err) {
+            output(err.message || err.toString());
+          }
+        });
+        Module.callMain(['--version'])
+      });
+    </script>
+  </head>
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">perl.js</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="https://github.com/gfx/perl.js">Repository</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>perl.js</h1>
+        <div class="row">
+          <div class="console"><textarea id="input"></textarea></div>
+          <div class="controll"><input type="button" value="eval" id="eval" /></div>
+          <div class="console"><textarea id="output"></textarea></div>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+  </body>
+</html>
