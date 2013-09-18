@@ -2,10 +2,9 @@
 
 CC = emcc
 LD = $(CC)
-CCFLAGS = -O1 -v 
-LDFLAGS = -O1 -v -s EXPORTED_FUNCTIONS="['_main']" -s SAFE_HEAP=0 --pre-js ../gen.node-prelude.js
+CCFLAGS = -O2 -v 
+LDFLAGS = -O2 -v -s EXPORTED_FUNCTIONS="['_main']" -s SAFE_HEAP=0 --closure 0 --pre-js ../gen.modules.js
 MICROPERL = microperl.js
-MINIPERLMAIN = miniperlmain.c
 
 DEFINES = -DPERL_CORE -DPERL_MICRO -DSTANDARD_C -DPERL_USE_SAFE_PUTENV \
 	  -DNO_MATHOMS
@@ -32,7 +31,6 @@ O = uav$(_O) udeb$(_O) udoio$(_O) udoop$(_O) udump$(_O) \
 
 $(MICROPERL): $(O)
 	$(LD) -o $(MICROPERL) $(O) $(LDFLAGS) $(LIBS)
-	chmod +x $(MICROPERL)
 
 generated_headers = uuudmap.h ubitcount.h umg_data.h
 

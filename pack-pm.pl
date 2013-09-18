@@ -6,6 +6,10 @@ use File::Basename qw(dirname);
 use File::Which qw(which);
 use File::Find;
 
+if ($ENV{NO_MODULES}) {
+    exit 0;
+}
+
 my $emcc       = which('emcc') or die "No emcc(1) in PATH.\n";
 my $emscripten = dirname($emcc);
 my $packager   = "$emscripten/tools/file_packager.py";

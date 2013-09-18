@@ -3,7 +3,6 @@
 
 perl/
 
-perl.js
-microperl.js
+*perl*.js
 a.out.*
 gen.*
