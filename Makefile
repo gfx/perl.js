@@ -20,6 +20,12 @@ perl:
 gen.modules.js: # may have NO_MODULES=1
 	perl pack-pm.pl > $@
 
+gh-pages:
+	#JAVA_TOOL_OPTIONS=-Xmx1024m closure-compiler --compilation_level WHITESPACE_ONLY --js web/perl.js --js_output_file perl.min.js
+	#perl -p -e 's/perl\.js/perl.min.js/g' web/index.html > index.html
+	cp web/perl.js perl.js
+	git add -f index.html perl.js
+
 clean:
 	cd perl && git co . && git clean -dfx
 	rm -rf microperl.js perl.js perl-cli.js

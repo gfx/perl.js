@@ -6,3 +6,5 @@ perl/
 *perl*.js
 a.out.*
 gen.*
+
+/index.html
