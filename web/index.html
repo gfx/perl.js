@@ -27,9 +27,13 @@
     <script src="perl.js"></script>
     <script>
       jQuery(function($) {
-        function onOutput(c) {
+        function output(s) {
           var output = $('#output');
-          output.val(output.val() + String.fromCharCode(c));
+          output.val(output.val() + s + "\n");
+        }
+        function onOutput(c) {
+          var o = $('#output');
+          o.val(o.val() + String.fromCharCode(s));
         }
         function onInput() {
           return null;
@@ -37,6 +41,8 @@
         Module.stdin  = onInput;
         Module.stdout = onOutput;
         Module.stderr = onOutput;
+        Module.print  = output;
+        Module.printErr = output;
         Module.exit = function exit(status) {
           EXITSTATUS = status;
           STACKTOP = initialStackTop;
@@ -57,10 +63,10 @@
             FS.createDataFile('/', 'input', $('#input').val(), true, true);
             Module.callMain(['/input'])
           } catch (err) {
-            var output = $('#output');
-            output.val(output.val() + (err.message || err.toString()));
+            output(err.message || err.toString());
           }
         });
+        Module.callMain(['--version'])
       });
     </script>
   </head>
