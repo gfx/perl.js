@@ -67,9 +67,11 @@ if (typeof jQuery !== "undefined") { // for the web
 
 		// monky patch
 		Module.abort = abort = function abort(text) {
-			alert('abort!');
+			setTimeout(function () {
+				alert('abort() called, reloading.');
+				window.location.reload();
+			}, 0);
 			sessionStorage.setItem('output', $('#output').val());
-			window.location.reload();
 			Module.exit(1);
 		};
 	});
