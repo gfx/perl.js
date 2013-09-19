@@ -3,8 +3,10 @@ PERL_GIT:=https://github.com/mirrors/perl.git
 PERL_VERSION:=v5.18.1
 
 all: microperl.js gen.modules.js
+	echo '(function bootPerl() {' > perl.js
 	cat prelude.js >> perl.js
 	cat microperl.js >> perl.js
+	echo '}());' >> perl.js
 	echo '#!/usr/bin/env node' > perl-cli.js
 	cat perl.js >> perl-cli.js
 	chmod +x perl-cli.js
