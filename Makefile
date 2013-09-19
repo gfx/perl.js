@@ -28,6 +28,14 @@ gh-pages:
 	cp web/index.html index.html
 	git add -f index.html perl.js
 
+update-gh-pages:
+	git co gh-pages
+	git merge master
+	make gh-pages
+	git ci -m 'make gh-pages'
+	git co -
+	git push origin gh-pages
+
 clean:
 	cd perl && git co . && git clean -dfx
 	rm -rf microperl.js perl.js perl-cli.js
