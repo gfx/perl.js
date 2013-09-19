@@ -48,11 +48,18 @@
           STACKTOP = initialStackTop;
           throw new ExitStatus(status);
         };
-        $('#input').val(
-          "use strict;\n" +
-          "use warnings;\n" +
-          "\n" +
-          "print \"Hello, perl.js!\\n\"\n");
+
+        var src = location.hash;
+        if (src) {
+          $('#input').val(decodeURIComponent(src.slice(1)));
+        }
+        else {
+          $('#input').val(
+            "use strict;\n" +
+            "use warnings;\n" +
+            "\n" +
+            "print \"Hello, perl.js!\\n\"\n");
+        }
 
         $('#eval').click(function() {
           $('#output').val('');
@@ -64,6 +71,10 @@
             Module.callMain(['/input'])
           } catch (err) {
             output(err.message || err.toString());
+          }
+          finally {
+            var src = encodeURIComponent($('#input').val());
+            location.hash = src;
           }
         });
         Module.callMain(['--version'])
@@ -97,7 +108,9 @@
         <h1>perl.js</h1>
         <div class="row">
           <div class="console"><textarea id="input"></textarea></div>
-          <div class="controll"><input type="button" value="eval" id="eval" /></div>
+          <div class="controll">
+            <input type="button" value="eval" id="eval" />
+          </div>
           <div class="console"><textarea id="output"></textarea></div>
         </div>
       </div>
