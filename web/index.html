@@ -25,61 +25,6 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="perl.js"></script>
-    <script>
-      jQuery(function($) {
-        function output(s) {
-          var output = $('#output');
-          output.val(output.val() + s + "\n");
-        }
-        function onOutput(c) {
-          var o = $('#output');
-          o.val(o.val() + String.fromCharCode(s));
-        }
-        function onInput() {
-          return null;
-        }
-        Module.stdin  = onInput;
-        Module.stdout = onOutput;
-        Module.stderr = onOutput;
-        Module.print  = output;
-        Module.printErr = output;
-        Module.exit = function exit(status) {
-          EXITSTATUS = status;
-          STACKTOP = initialStackTop;
-          throw new ExitStatus(status);
-        };
-
-        var src = location.hash;
-        if (src) {
-          $('#input').val(decodeURIComponent(src.slice(1)));
-        }
-        else {
-          $('#input').val(
-            "use strict;\n" +
-            "use warnings;\n" +
-            "\n" +
-            "print \"Hello, perl.js!\\n\"\n");
-          Module.callMain(['--version'])
-        }
-
-        $('#eval').click(function() {
-          $('#output').val('');
-          preloadStartTime = null;
-          ABORT = false;
-          try {
-            try { FS.unlink('/input') } catch (e) { }
-            FS.createDataFile('/', 'input', $('#input').val(), true, true);
-            Module.callMain(['/input'])
-          } catch (err) {
-            output(err.message || err.toString());
-          }
-          finally {
-            var src = encodeURIComponent($('#input').val());
-            location.hash = src;
-          }
-        });
-      });
-    </script>
   </head>
   <body>
 
