@@ -17,7 +17,7 @@ if (typeof jQuery !== "undefined") { // for the web
 			o.val(o.val() + String.fromCharCode(s));
 		}
 		function onInput() {
-			return null;
+			return null; // EOF
 		}
 		Module.stdin  = onInput;
 		Module.stdout = onOutput;
