@@ -24,15 +24,15 @@ gen.modules.js: # may have NO_MODULES=1
 
 gh-pages:
 	#JAVA_TOOL_OPTIONS=-Xmx1024m closure-compiler --compilation_level WHITESPACE_ONLY --js web/perl.js --js_output_file perl.js
-	cp web/* .
+	cp -r web/* .
 	git add -f index.html assets/*.*
 
 update-gh-pages:
-	git co gh-pages
+	git checkout gh-pages
 	git merge master
 	make gh-pages
-	git ci -m 'make gh-pages'
-	git co -
+	git commit -am 'make gh-pages'
+	git checkout -
 	git push origin gh-pages
 
 clean:
