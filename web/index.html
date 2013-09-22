@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>perl.js</title>
 
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <style>
       body {
         padding-top: 50px;
@@ -23,52 +23,8 @@
         height: 15em;
       }
     </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="perl.js"></script>
-    <script>
-      jQuery(function($) {
-        function output(s) {
-          var output = $('#output');
-          output.val(output.val() + s + "\n");
-        }
-        function onOutput(c) {
-          var o = $('#output');
-          o.val(o.val() + String.fromCharCode(s));
-        }
-        function onInput() {
-          return null;
-        }
-        Module.stdin  = onInput;
-        Module.stdout = onOutput;
-        Module.stderr = onOutput;
-        Module.print  = output;
-        Module.printErr = output;
-        Module.exit = function exit(status) {
-          EXITSTATUS = status;
-          STACKTOP = initialStackTop;
-          throw new ExitStatus(status);
-        };
-        $('#input').val(
-          "use strict;\n" +
-          "use warnings;\n" +
-          "\n" +
-          "print \"Hello, perl.js!\\n\"\n");
-
-        $('#eval').click(function() {
-          $('#output').val('');
-          preloadStartTime = null;
-          ABORT = false;
-          try {
-            try { FS.unlink('/input') } catch (e) { }
-            FS.createDataFile('/', 'input', $('#input').val(), true, true);
-            Module.callMain(['/input'])
-          } catch (err) {
-            output(err.message || err.toString());
-          }
-        });
-        Module.callMain(['--version'])
-      });
-    </script>
+    <script src="assets/jquery.js"></script>
+    <script src="assets/perl.js"></script>
   </head>
   <body>
 
@@ -88,6 +44,7 @@
             <li><a href="https://github.com/gfx/perl.js">Repository</a></li>
           </ul>
         </div><!--/.nav-collapse -->
+        <a href="https://github.com/gfx/perl.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
       </div>
     </div>
 
@@ -97,7 +54,9 @@
         <h1>perl.js</h1>
         <div class="row">
           <div class="console"><textarea id="input"></textarea></div>
-          <div class="controll"><input type="button" value="eval" id="eval" /></div>
+          <div class="controll">
+            <input type="button" value="run" id="eval" />
+          </div>
           <div class="console"><textarea id="output"></textarea></div>
         </div>
       </div>
