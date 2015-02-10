@@ -1,6 +1,6 @@
 # perl.js
 
-DBD
+Perl on JavaScript with Emscripten
 
 # INSTALL
 
