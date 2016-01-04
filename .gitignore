@@ -1,7 +1,7 @@
 *~
 *.swp
 
-perl/
+perl5/
 
 *perl*.js
 a.out.*

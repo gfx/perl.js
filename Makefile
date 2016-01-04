@@ -1,5 +1,5 @@
 
-PERL_GIT:=https://github.com/mirrors/perl.git
+PERL_GIT:=https://github.com/Perl/perl5.git
 PERL_VERSION:=v5.18.1
 
 all: microperl.js
@@ -12,11 +12,11 @@ all: microperl.js
 	chmod +x perl-cli.js
 	mv perl.js web/assets
 
-microperl.js: perl gen.modules.js
-	cd perl && make -f ../Makefile.emcc
-	cp perl/microperl.js microperl.js
+microperl.js: perl5 gen.modules.js
+	cd perl5 && make -f ../Makefile.emcc
+	cp perl5/microperl.js microperl.js
 
-perl:
+perl5:
 	git clone --depth 1 -b $(PERL_VERSION) $(PERL_GIT)
 
 gen.modules.js: # may have NO_MODULES=1
@@ -36,6 +36,6 @@ update-gh-pages:
 	git push origin gh-pages
 
 clean:
-	cd perl && git co . && git clean -dfx
+	cd perl5 && git co . && git clean -dfx
 	rm -rf microperl.js perl.js perl-cli.js
 
